@@ -6,6 +6,7 @@ alias w="cd ~/Development/werkspot.com"
 alias grep='grep --color=auto'
 
 # ls
+ls --color=auto &> /dev/null && alias ls='ls --color=auto' #on linux we need ls --color=auto, but on OSX that crashed, this makes it GNU and BSD/Darwin compatible
 alias l="ls -a"
 alias ll="ls -l"
 alias lh="ls -lh"
