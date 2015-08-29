@@ -1,0 +1,12 @@
+# Enable vi mode for readline inputs with forceful directions
+set editing-mode vi
+
+# UTF-8 support
+set meta-flag on
+set input-meta on
+set output-meta on
+set convert-meta off
+
+# Include system wide settings which are ignored
+# by default if one has their own .inputrc
+$include /etc/inputrc

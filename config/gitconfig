@@ -1,0 +1,33 @@
+[include]
+  path = ~/.gitconfig.private
+
+[color]
+  ui = auto
+  diff = auto
+  status = auto
+  branch = auto
+
+[core]
+  excludesfile = ~/.gitignore
+
+[rebase]
+  autosquash = true
+
+[push]
+  default = current
+
+[pull]
+  default = current
+
+[credential]
+  helper = osxkeychain
+
+[diff]
+  tool = vimdiff
+
+[difftool]
+  prompt = false
+
+[alias]
+  ll = log --format=fuller --graph --decorate
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --

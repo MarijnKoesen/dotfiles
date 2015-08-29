@@ -1,0 +1,55 @@
+# vim: set ft=sh:
+
+## Fresh setup
+
+# Initiate fresh so you can use this file
+fresh freshshell/fresh bin/fresh --bin
+#fresh freshshell/fresh contrib/source-build.sh --file=~/.zshrc
+
+## Bins
+
+# Add all bins in local bin/
+fresh bin/\* --bin
+
+# Setup catacomb which lets you encrypt files using user's github key
+fresh twe4ked/catacomb bin/catacomb --bin
+
+## Config
+fresh-options --file
+  fresh config/\*
+fresh-options
+
+
+## Shell
+
+# Add all aliases via local shell/aliases/*
+fresh shell/aliases/\*
+
+# Add misc shell files from local shell/*
+fresh shell/\*
+
+## Zsh
+fresh-options --file=~/.zshrc --marker
+  fresh shell/zsh/completion.zsh
+  fresh shell/zsh/prompt.zsh
+  fresh shell/zsh/aliases.zsh
+  fresh shell/zsh/zshrc
+  fresh shell/zsh/keybindings.zsh
+
+  ## this loads the shell files and needs to be at the bottom of the zshrc for compdef be availiable
+  fresh freshshell/fresh contrib/source-build.sh
+
+  fresh rupa/z z.sh
+  fresh zsh-users/zsh-history-substring-search zsh-history-substring-search.zsh
+  fresh sharat87/zsh-vim-mode zsh-vim-mode.plugin.zsh
+fresh-options
+
+# completions: common completions
+fresh zsh-users/zsh-completions src --file=completion/
+
+# syntax-highlighting: fish-like syntax highlighting
+fresh zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting.zsh --file=vendor/zsh-syntax-highlighting.zsh
+fresh zsh-users/zsh-syntax-highlighting highlighters --file=vendor/highlighters/
+
+# Tmux
+fresh config/tmuxinator  --file=~/.tmuxinator/

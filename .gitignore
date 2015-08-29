@@ -1,0 +1,7 @@
+zsh/config.private
+config/gitconfig.private
+bash_history
+vim/backup
+zsh_history
+tags
+.idea
