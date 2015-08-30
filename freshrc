@@ -51,5 +51,16 @@ fresh zsh-users/zsh-completions src --file=completion/
 fresh zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting.zsh --file=vendor/zsh-syntax-highlighting.zsh
 fresh zsh-users/zsh-syntax-highlighting highlighters --file=vendor/highlighters/
 
+
+
+## Vim
+
+fresh vim/vimrc --file=~/.vimrc
+ln -sf  ~/.dotfiles/vim ~/.vim
+
+
+
+## Misc
+
 # Tmux
 fresh config/tmuxinator  --file=~/.tmuxinator/
