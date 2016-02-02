@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  tasks:
+    - homebrew_tap: tap=caskroom/cask state=present # needer to install 'apps'
+    - homebrew_tap: tap=homebrew/php state=present # needed for composer
+    - homebrew: update_homebrew=yes
+    - homebrew: name=vim install_options=override-system-vi state=latest
+    - homebrew: name=hub state=latest
+    - homebrew: name=wget state=latest
+    - homebrew: name=cask state=latest
+    - homebrew: name=node state=latest
+    - homebrew: name=python3 state=latest
+    - homebrew: name=brew-cask state=latest
+    - homebrew: name=composer state=latest
+    - homebrew_cask: name=virtualbox state=installed
+    - homebrew_cask: name=phpstorm state=installed
+    - homebrew_cask: name=sequel-pro state=installed
+    - homebrew_cask: name=google-chrome state=installed
+    - homebrew_cask: name=iterm2 state=installed
+    - homebrew_cask: name=slack state=installed
+    - homebrew_cask: name=alfred state=installed
+    - homebrew_cask: name=sizeup state=installed
+    - homebrew_cask: name=dropbox state=installed
+    - homebrew_cask: name=1password state=installed
+    - homebrew_cask: name=spotify state=installed
+    - homebrew_cask: name=skype state=installed
+    - homebrew_cask: name=vagrant state=installed
+    - homebrew_cask: name=sketchup state=installed
