@@ -12,6 +12,7 @@
     - homebrew: name=python3 state=latest
     - homebrew: name=brew-cask state=latest
     - homebrew: name=composer state=latest
+    - homebrew: name=autoconf state=latest
     - homebrew_cask: name=virtualbox state=installed
     - homebrew_cask: name=phpstorm state=installed
     - homebrew_cask: name=sequel-pro state=installed
