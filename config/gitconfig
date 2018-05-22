@@ -31,6 +31,12 @@
 [alias]
   ll = log --format=fuller --graph --decorate
   lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+  create-fixups = for file in `git diff --name-only --cached`; do commit=$(git log --pretty=format:"%h" -n 1 $file); git commit -m "fixup $commit" $file; done 
+  create-fixup2 = for file in `git ls-files -m`; do commit=$(git log --pretty=format:"%h" -n 1 $file); git commit -m "fixup $commit" $file; done
+
+[user]
+	name = Marijn Koesen
+	email = github@koesen.nl
 
 [commit]
 	gpgsign = true
