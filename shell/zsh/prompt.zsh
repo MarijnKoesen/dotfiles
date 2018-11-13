@@ -17,36 +17,6 @@ parse_git_dirty () {
   fi
 }
 
-# get the status of the working tree
-git_prompt_status() {
-  INDEX=$(git status --porcelain 2> /dev/null)
-  STATUS=""
-  if $(echo "$INDEX" | grep '^?? ' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_UNTRACKED$STATUS"
-  fi
-  if $(echo "$INDEX" | grep '^A  ' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_ADDED$STATUS"
-  elif $(echo "$INDEX" | grep '^M  ' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_ADDED$STATUS"
-  fi
-  if $(echo "$INDEX" | grep '^ M ' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_MODIFIED$STATUS"
-  elif $(echo "$INDEX" | grep '^AM ' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_MODIFIED$STATUS"
-  elif $(echo "$INDEX" | grep '^ T ' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_MODIFIED$STATUS"
-  fi
-  if $(echo "$INDEX" | grep '^R  ' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_RENAMED$STATUS"
-  fi
-  if $(echo "$INDEX" | grep '^ D ' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_DELETED$STATUS"
-  fi
-  if $(echo "$INDEX" | grep '^UU ' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_UNMERGED$STATUS"
-  fi
-  echo $STATUS
-}
 function zle-line-init zle-keymap-select {
   zle reset-prompt
 }
@@ -81,7 +51,12 @@ fi
 typeset -A host_repr
 
 # translate hostnames into shortened, colorcoded strings
-host_repr=('Marijns-MacBook-Pro.local' "%{$fg_bold[green]%}mkmbp" 'Marijns-Mac-Pro.local' "%{$fg_bold[green]%}desktop" )
+host_repr=(
+    'Marijns-MacBook-Pro.local' "%{$fg_bold[green]%}mkmbp" 
+    'Marijns-MacBook-Pro-2.local' "%{$fg_bold[green]%}mkmbp" 
+    'Marijns-MBP-2' "%{$fg_bold[green]%}mkmbp" 
+    'Marijns-Mac-Pro.local' "%{$fg_bold[green]%}desktop" 
+)
 
 # local time, color coded by last return code
 time_enabled="%(?.%{$fg[green]%}.%{$fg[red]%})%*%{$reset_color%}"
@@ -89,35 +64,42 @@ time_disabled="%{$fg[green]%}%*%{$reset_color%}"
 time=$time_enabled
 
 # user part, color coded by privileges
-local user="%(!.%{$fg[blue]%}.%{$fg[blue]%})%n%{$reset_color%}"
-[[ $USER = 'marijnkoesen' ]] && local user="%{$fg[blue]%}mk%{$reset_color%}"
-[[ $USER = 'brightbit' ]] && local user="%{$fg[blue]%}bb%{$reset_color%}"
-[[ $USER = 'root' ]] && local user="%{$fg[red]%}bb%{$reset_color%}"
+local user="%(!.%{$fg[blue]%}.%{$fg[blue]%})%n%{$reset_color%}@"
+[[ $USER = 'marijnkoesen' ]] && local user=""
+[[ $USER = 'marijn' ]] && local user=""
+[[ $USER = 'root' ]] && local user="%{$fg[red]%}bb%{$reset_color%}@"
 
 # Hostname part.  compressed and colorcoded per host_repr array
 # if not found, regular hostname in default color
-local host="@${host_repr[$(hostname)]:-$(hostname)}%{$reset_color%}"
+local host="${host_repr[$(hostname)]:-$(hostname)}%{$reset_color%}"
 
 # Compacted $PWD
 local pwd="%{$fg[blue]%}%c%{$reset_color%}"
 
+zstyle ':zsh-kubectl-prompt:' namespace false
+
+
 PROMPT_CHAR="$"
 [[ $USER = 'root' ]] && PROMPT_CHAR="%{$fg[red]%}#%{$reset_color%}"
-PROMPT='${time} ${user}${host} %(!.%1~.%~)$(git_prompt_info) ${PROMPT_CHAR} '
+#PROMPT='${time} ${user}${host} %(!.%1~.%~)$(git_prompt_info) ${PROMPT_CHAR} '
+PROMPT='${time} ${user}${host} %(!.%1~.%~)$(git_super_status) $fg[blue]%}@${ZSH_KUBECTL_PROMPT}%{$reset_color%} ${PROMPT_CHAR} '
+
 
 # i would prefer 1 icon that shows the "most drastic" deviation from HEAD,
 # but lets see how this works out
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%} "
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[green]%} %{$fg[yellow]%}?%{$fg[green]%}%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{…%G%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}%{✔%G%}"
 
 # elaborate exitcode on the right when >0
 return_code_enabled="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 return_code_disabled=
 return_code=$return_code_enabled
 
-RPS1='] $(vi_mode_prompt_info) ${return_code} $(which -s rvm-prompt >/dev/null 2>&1 && rvm-prompt)'
+#RPS1='] $(vi_mode_prompt_info) ${return_code} $(which -s rvm-prompt >/dev/null 2>&1 && rvm-prompt)'
+#RPS1='$(git_super_status)'
 
 function accept-line-or-clear-warning () {
 	if [[ -z $BUFFER ]]; then

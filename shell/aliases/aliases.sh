@@ -1,6 +1,7 @@
 # directory aliases
 alias d="cd ~/Development"
 alias w="cd ~/Development/werkspot.com"
+alias p="cd ~/Development/gitlab.pruts0r.nl"
 
 # Use color in grep
 alias grep='grep --color=auto'

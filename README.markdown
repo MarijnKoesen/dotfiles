@@ -21,6 +21,22 @@ My dotfiles are managed by [fresh].
 
 [fresh]: http://freshshell.com
 
+## Install the fonts
+
+1) If the fonts are not working properly in the shell, install them manually from `fonts/` 
+2) Change iTerm to settings:
+
+![iTerm font settings](https://github.com/MarijnKoesen/dotfiles/raw/master/doc/iterm-font-settings.png)
+
+
+## Updating after a local update to your dotfiles
+
+Simple run fresh and you changes will be installed:
+
+```
+fresh
+```
+
 ## Setting zsh as default shell on OSX:
 
 * Go to 'System Preferences' > 'Users & Groups'

@@ -14,6 +14,12 @@
     - homebrew: name=brew-cask state=latest
     - homebrew: name=composer state=latest
     - homebrew: name=autoconf state=latest
+    - homebrew: name=php/php70 state=latest
+    - homebrew: name=php/php70-acpu state=latest
+    - homebrew: name=php/php70-intl state=latest
+    - homebrew: name=php/php70-redis state=latest
+    - homebrew: name=php/php70-xdebug state=latest
+    - homebrew: name=php/php70-memcached state=latest
     - homebrew_cask: name=virtualbox state=installed
     - homebrew_cask: name=phpstorm state=installed
     - homebrew_cask: name=sequel-pro state=installed

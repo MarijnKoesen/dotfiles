@@ -4,7 +4,6 @@
 
 # Initiate fresh so you can use this file
 fresh freshshell/fresh bin/fresh --bin
-#fresh freshshell/fresh contrib/source-build.sh --file=~/.zshrc
 
 ## Bins
 
@@ -19,18 +18,18 @@ fresh-options --file
   fresh config/\*
 fresh-options
 
-
 ## Shell
 
 # Add all aliases via local shell/aliases/*
 fresh shell/aliases/\*
 
 # Add misc shell files from local shell/*
-fresh shell/\*
+fresh shell/misc/\*
 
-## Zsh
+## Zsh - my custom way
 fresh-options --file=~/.zshrc --marker
   fresh shell/zsh/completion.zsh
+  fresh shell/zsh/gitprompt.sh
   fresh shell/zsh/prompt.zsh
   fresh shell/zsh/aliases.zsh
   fresh shell/zsh/zshrc
@@ -42,7 +41,9 @@ fresh-options --file=~/.zshrc --marker
   fresh rupa/z z.sh
   fresh zsh-users/zsh-history-substring-search zsh-history-substring-search.zsh
   fresh sharat87/zsh-vim-mode zsh-vim-mode.plugin.zsh
+  fresh superbrothers/zsh-kubectl-prompt kubectl.zsh
 fresh-options
+
 
 # completions: common completions
 fresh zsh-users/zsh-completions src --file=completion/
@@ -64,3 +65,7 @@ ln -sf  ~/.dotfiles/vim ~/.vim
 
 # Tmux
 fresh config/tmuxinator  --file=~/.tmuxinator/
+
+# Add custom font 
+cp ~/.dotfiles/fonts/* ~/Library/Fonts/
+
