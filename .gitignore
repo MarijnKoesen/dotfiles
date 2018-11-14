@@ -5,6 +5,6 @@ vim/backup
 zsh_history
 tags
 .idea
-*.swo
+*.sw[onp]
 .netrwhist
 ansible-playbook.retry

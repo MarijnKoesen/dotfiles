@@ -2,6 +2,10 @@ fpath=(~/.fresh/build/completion $fpath)
 
 autoload -U compinit; compinit
 
+# Enable bash autocompletion using the 'complete' command
+autoload bashcompinit
+bashcompinit
+
 # group matches and describe groups
 zstyle ':completion:*' special-dirs true
 zstyle ':completion:*:matches' group 'yes'
