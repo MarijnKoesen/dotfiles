@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+CURRENT_CONTEXT=$(kubectl config current-context)
+CURRENT_USER=$(kubectl config view -o json | jq ".contexts[] | select(.name == \"${CURRENT_CONTEXT}\") | .context.user" -r)
+CURRENT_USER_TOKEN=$(kubectl config view -o json | jq ".users[] | select(.name == \"${CURRENT_USER}\") | (.user.\"auth-provider\".config.\"id-token\" // .user.token)" -r)
+
+if [ "$CURRENT_USER_TOKEN" = "null" ]; then
+    echo "Could not find user token..."
+    exit -1
+fi
+
+echo $CURRENT_USER_TOKEN | pbcopy
