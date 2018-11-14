@@ -29,13 +29,6 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
-# Show time a command took if over 4 sec
-export REPORTTIME=4
-export TIMEFMT="%*Es total, %U user, %S system, %P cpu"
-
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root)
-source ~/.fresh/build/vendor/zsh-syntax-highlighting.zsh
-
 # Make path unique
 typeset -U path
 

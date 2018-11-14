@@ -3,20 +3,6 @@ setopt prompt_subst
 
 autoload colors; colors
 
-# get the name of the branch we are on
-function git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX:${ref#refs/heads/}$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX"
-}
-
-parse_git_dirty () {
-  if [[ -n $(git status -s 2> /dev/null) ]]; then
-    echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
-  else
-    echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
-  fi
-}
-
 function zle-line-init zle-keymap-select {
   zle reset-prompt
 }
@@ -58,11 +44,6 @@ host_repr=(
     'Marijns-Mac-Pro.local' "%{$fg_bold[green]%}desktop" 
 )
 
-# local time, color coded by last return code
-time_enabled="%(?.%{$fg[green]%}.%{$fg[red]%})%*%{$reset_color%}"
-time_disabled="%{$fg[green]%}%*%{$reset_color%}"
-time=$time_enabled
-
 # user part, color coded by privileges
 local user="%(!.%{$fg[blue]%}.%{$fg[blue]%})%n%{$reset_color%}@"
 [[ $USER = 'marijnkoesen' ]] && local user=""
@@ -81,9 +62,20 @@ zstyle ':zsh-kubectl-prompt:' namespace false
 
 PROMPT_CHAR="$"
 [[ $USER = 'root' ]] && PROMPT_CHAR="%{$fg[red]%}#%{$reset_color%}"
-#PROMPT='${time} ${user}${host} %(!.%1~.%~)$(git_prompt_info) ${PROMPT_CHAR} '
-PROMPT='${time} ${user}${host} %(!.%1~.%~)$(git_super_status) $fg[blue]%}@${ZSH_KUBECTL_PROMPT}%{$reset_color%} ${PROMPT_CHAR} '
+PROMPT='${time} ${user}${host} $(spwd)$(git_super_status) ${PROMPT_NEWLINE}${PROMPT_CHAR} '
 
+# local time, color coded by last return code
+time_enabled="%(?.%{$fg[green]%}.%{$fg[red]%})%*%{$reset_color%}"
+time_disabled="%{$fg[green]%}%*%{$reset_color%}"
+time=$time_enabled
+
+function prompt-single-line {
+    PROMPT_NEWLINE=""
+}
+
+function prompt-multi-line {
+    PROMPT_NEWLINE=$'\n'">> "
+}
 
 # i would prefer 1 icon that shows the "most drastic" deviation from HEAD,
 # but lets see how this works out
@@ -93,13 +85,30 @@ ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[green]%} %{$fg[yellow]%}?%{$fg[green]%}%{$rese
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{…%G%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}%{✔%G%}"
 
+ZSH_THEME_GIT_PROMPT_ADDED="%{$FG[082]%}✚%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%{$FG[166]%}✹%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DELETED="%{$FG[160]%}✖%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_RENAMED="%{$FG[220]%}➜%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$FG[082]%}═%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$FG[190]%}✭%{$reset_color%}"
+
 # elaborate exitcode on the right when >0
 return_code_enabled="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 return_code_disabled=
 return_code=$return_code_enabled
 
 #RPS1='] $(vi_mode_prompt_info) ${return_code} $(which -s rvm-prompt >/dev/null 2>&1 && rvm-prompt)'
-#RPS1='$(git_super_status)'
+
+KUBECTL_PROMPT='%{$fg[green]%}$ZSH_KUBECTL_PROMPT%{$reset_color%}'
+RPS1=${KUBECTL_PROMPT}
+function prompt-enable-k8s {
+    RPS1=$KUBECTL_PROMPT
+}
+
+function prompt-disable-k8s {
+    RPS1=''
+}
+
 
 function accept-line-or-clear-warning () {
 	if [[ -z $BUFFER ]]; then

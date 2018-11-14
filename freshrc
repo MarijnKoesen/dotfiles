@@ -29,6 +29,8 @@ fresh shell/misc/\*
 ## Zsh - my custom way
 fresh-options --file=~/.zshrc --marker
   fresh shell/zsh/completion.zsh
+  fresh shell/zsh/syntax-highlighting.zsh
+  fresh shell/zsh/collapsed-pwd.zsh
   fresh shell/zsh/gitprompt.sh
   fresh shell/zsh/prompt.zsh
   fresh shell/zsh/aliases.zsh
@@ -49,8 +51,11 @@ fresh-options
 fresh zsh-users/zsh-completions src --file=completion/
 
 # syntax-highlighting: fish-like syntax highlighting
-fresh zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting.zsh --file=vendor/zsh-syntax-highlighting.zsh
-fresh zsh-users/zsh-syntax-highlighting highlighters --file=vendor/highlighters/
+fresh zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting.zsh --file=vendor/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fresh zsh-users/zsh-syntax-highlighting .version --file=vendor/zsh-syntax-highlighting/.version
+fresh zsh-users/zsh-syntax-highlighting .revision-hash --file=vendor/zsh-syntax-highlighting/.revision-hash
+fresh zsh-users/zsh-syntax-highlighting highlighters --file=vendor/zsh-syntax-highlighting/highlighters/
+
 
 
 
