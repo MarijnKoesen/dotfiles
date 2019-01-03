@@ -43,6 +43,7 @@ fresh-options --file=~/.zshrc --marker
 
   fresh rupa/z z.sh
   fresh zsh-users/zsh-history-substring-search zsh-history-substring-search.zsh
+  fresh zsh-users/zsh-autosuggestions zsh-autosuggestions.zsh
   fresh sharat87/zsh-vim-mode zsh-vim-mode.plugin.zsh
   fresh superbrothers/zsh-kubectl-prompt kubectl.zsh
 fresh-options

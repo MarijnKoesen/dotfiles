@@ -110,16 +110,20 @@ function prompt-disable-k8s {
 }
 
 
-function accept-line-or-clear-warning () {
-	if [[ -z $BUFFER ]]; then
-		time=$time_disabled
-		return_code=$return_code_disabled
-	else
-		time=$time_enabled
-		return_code=$return_code_enabled
-	fi
-	zle accept-line
-}
-zle -N accept-line-or-clear-warning
-bindkey '^M' accept-line-or-clear-warning
+# This one messes with fresh zsh-users/zsh-autosuggestions, if enabled and we get an autocompletion for a command
+# but we don't use it, e.g. we type 'kubectl' and it suggests to autocomplete to 'kubectl get pod', but we press
+# enter, then the shell history would show 'kubectl get pod', while actually we executed 'kubectl' this is very
+# annoying, so i've disabled this method for now, and will fix it later, see also https://github.com/zsh-users/zsh-autosuggestions/issues/162
+#function accept-line-or-clear-warning () {
+#	if [[ -z $BUFFER ]]; then
+#		time=$time_disabled
+#		return_code=$return_code_disabled
+#	else
+#		time=$time_enabled
+#		return_code=$return_code_enabled
+#	fi
+#	zle accept-line
+#}
+#zle -N accept-line-or-clear-warning
+#bindkey '^M' accept-line-or-clear-warning
 

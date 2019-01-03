@@ -31,11 +31,12 @@ bindkey '\e[3~' delete-char
 
 bindkey '^[^N' newtab
 
-# Use incremental search
+# Use history search option 1
 bindkey "^R" history-incremental-search-backward
-
-# Use incremental search
 bindkey "^R" history-incremental-search-backward
+# Use history search option 2 (not really a fan of beginning search)
+#bindkey "^R" history-beginning-search-backward
+#bindkey "^B" history-beginning-search-forward
 
 # Remap Ctrl-S to Ctrl-- for stopping termianl output
 stty stop 
